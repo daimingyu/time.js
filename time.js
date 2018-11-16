@@ -219,6 +219,27 @@
         numStrAdd0(num){
             return (parseInt(num) <= 9 && parseInt(num) >= 0) ? ('0' + num) : num;
         },
+        /**
+         * 计算需要加多少月 addSomeDay函数 使用 参数必须是数字
+         */
+        addHowManyMonth(baseYear,baseMonth,baseDay,targetDay){
+            if(baseMonth == 1 || baseMonth == 3 || baseMonth == 5 || baseMonth == 7 || baseMonth == 8 || baseMonth == 10 || baseMonth == 12){
+                if((baseDay + targetDay) <= 31){
+                    return 0;
+                }else{
+                    return 1 + arguments.callee(baseYear,(baseMonth+1)%12 + 1,0,targetDay-baseDay);
+                }
+            }
+            if(baseMonth == 4 || baseMonth == 6 || baseMonth == 8 || baseMonth == 10 || baseMonth == 11){
+
+            }
+            if(this.isLeapYear(baseYear) && baseMonth == 2){
+
+            }
+            if(!this.isLeapYear(baseYear) && baseMonth == 2){
+
+            }
+        },
         addSomeYear(obj,number){
             let date = `${parseInt(obj.year) + number}-${obj.month}-${obj.day}`;
             obj.time = obj.type === 1?date:`${date} ${obj.hour}:${obj.minute}:${obj.second}`;
@@ -232,6 +253,9 @@
             let date = `${newYear}-${newMonth}-${obj.day}`;
             obj.time = obj.type === 1?date:`${date} ${obj.hour}:${obj.minute}:${obj.second}`;
             this.updateTimeObj(obj);
+        },
+        addSomeDay(obj,number){
+
         },
         /**
          * [判断某年 或者 某年某月有多少天]
@@ -281,9 +305,17 @@
         this.year = timeStr.split(' ')[0].split('-')[0];
         this.month = timeStr.split(' ')[0].split('-')[1];
         this.day = timeStr.split(' ')[0].split('-')[2];
-        this.hour = timeStr.split(' ')[1]?timeStr.split(' ')[1].split(':')[0]:undefined;
-        this.minute = timeStr.split(' ')[1]?timeStr.split(' ')[1].split(':')[1]:undefined;
-        this.second = timeStr.split(' ')[1]?timeStr.split(' ')[1].split(':')[2]:undefined;
+
+        if(timeStr.split(' ')[1]){
+            this.hour = timeStr.split(' ')[1].split(':')[0];
+        }
+        if(timeStr.split(' ')[1]){
+            this.minute = timeStr.split(' ')[1].split(':')[1];
+        }
+        if(timeStr.split(' ')[1]){
+            this.second = timeStr.split(' ')[1].split(':')[2];
+        }
+
         this.type = timeStr.split(' ')[1]?FLAG_DATA_HOUR:FLAG_DATA;
     } 
 
@@ -449,6 +481,8 @@
                     _utils.addSomeMonth(this,number);
                     return this;
                 case UNIT_DAY:
+                    _utils.addSomeDay(this,number);
+                    return this;
                 case UNIT_HOUR:
                 case UNIT_MINUTE:
                 case UNIT_SECOND:
