@@ -45,7 +45,7 @@
          * @param {用户输入的时间参数} timeStr 
          */
         validate(timeStr){
-            if(new Date(timeStr).toString() === 'Invalid Date'){
+            if(new Date(timeStr).toString() === 'Invalid Date' && timeStr !== undefined){
                 return false;
             }
             return true;
@@ -72,7 +72,7 @@
     };
 
     let Time = function(timeStr){
-        //需要对用户输入的timeStr进行校验校验
+        //需要对用户输入的timeStr进行校验
         if(!_utils.validate(timeStr)){
             _utils.throwError('Invalid Date');
         }
@@ -82,7 +82,11 @@
 
     //构造函数
     Time.prototype.init = function(timeStr){
-        this._date = new Date(timeStr);
+        if(!timeStr){
+            this._date = new Date();
+        }else{
+            this._date = new Date(timeStr);
+        }
     } 
 
     //将Time对象的原型指向Time的原型，这样Time构造出的对象 就能使用Time原型上的方法了
