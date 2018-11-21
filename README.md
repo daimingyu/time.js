@@ -1,6 +1,6 @@
 # Time.js
 
-## 一、工具函数
+## 一、工具方法
 
 ```
 函数： getCurrentTimeStamp()
@@ -92,3 +92,94 @@ Time.getCurrentDay()  //3
 Time.getCurrentQuarter()  //3
 ```
 
+```
+函数： getCurrentFormatTime(hasHour) 
+功能： 获取现在格式化的时间
+输入： hasHour: 是否要时分秒,类型为Boolean,默认为true
+输出： 格式化时间
+事例：
+Time.getCurrentFormatTime()  //2018-11-20 16:11:47
+Time.getCurrentFormatTime(false)  //2018-11-20
+```
+
+```
+函数： isLeapYear(year) 
+功能： 判断是否是闰年
+输入： year: 具体年份,类型为Boolean,默认为true
+输出： true or false
+事例：
+Time.isLeapYear('2018')  //false
+Time.isLeapYear(2012)  //true
+```
+
+```
+函数：howManyDays(year,month)
+功能：判断某年 或者 某年某月 一共有多少天
+输入：year: 具体年份 类型number或string, month：具体月份 类型number或string
+事例：
+Time.howManyDays(2018);   //365
+Time.howManyDays(2018,2)  //28
+Time.howManyDays(2012,2)  //29
+```
+
+```
+函数：getWeek(year,month,day)
+功能：判断某年 某月 某日 是 星期几
+输入：year: 具体年份 类型number或string, month：具体月份 类型number或string， day: 具体日期 类型number或string
+事例：
+Time.getWeek(2018,2,12);  //1
+Time.getWeek(2018,11,23);  //3
+```
+
+## 二、对象方法
+
+### 说明
+构造函数说明： 时间选择器类似于jquery的选择器，不必使用 new 创建对象，只需要传入格式化的时间就可以 例如： Time('2018-12-1') Time('2018-10-2 12:34:22') , 如果传入的参数不和法，浏览器会报错。
+
+
+```
+函数：format()
+功能：格式化输出当前对象表示的时间
+输入：
+输出：格式化的时间
+事例
+Time('2019-12-11').format();   //
+```
+
+```
+函数：isBefore(t)
+功能：判断一个时间是否在另一个时间之前
+输入：t: 类型可以使time对象或time字符串
+输出：true 或 false
+事例
+Time('2019-12-11').isBefore('2018-1-1');   //false
+Time('2019-12-12').isBefore(Time('2020-12-11'))  //true
+```
+
+```
+函数：isAfter(t)
+功能：判断一个时间是否在另一个时间之后
+输入：t: 类型可以使time对象或time字符串
+输出：true 或 false
+事例
+Time('2019-12-11').isAfter('2018-1-1');   //true
+Time('2019-12-12').isAfter(Time('2020-12-11'))  //false
+```
+
+```
+函数：isBetween(t1,t2)
+功能：判断一个时间是否在另两个时间之间
+输入：t1, t2: 类型可以使time对象或time字符串
+输出：true 或 false
+事例
+Time('2019-12-11').isBetween('2018-1-1',Time('2020-1-1'));   //true
+```
+
+```
+函数：add(number,unit)
+功能：进行时间的加减法
+输入：number (正数加法，负数为减法),unit 单位 'year' 'month' 'day' 'hour' 'minute' 'second'
+输出：无，会改变原来的时间对象
+事例：
+Time('2018-1-1').add(1,'year').format() //2019-1-1 0:0:0
+```
