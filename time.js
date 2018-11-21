@@ -332,6 +332,20 @@
                 default :
                     _utils.throwError(`单位 ${unit} 错误`);
             }
+        },
+        /**
+         * 计算两个时间相差多少天
+         * @param {*} t 
+         */
+        duration(t){
+            if(!_utils.isTimeObject(t)){
+                if(typeof t === 'string'){
+                    t = Time(t);
+                }else{
+                    _utils.throwError('isBetween(): 参数有误');
+                }
+            }
+            return Math.floor((t._date.getTime() - this._date.getTime())/(24*3600*1000));
         }
     });
 
