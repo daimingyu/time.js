@@ -1,13 +1,7 @@
 /**
- * 标准日期格式 : 2018-10-31 13:22:39
- * time : 2018-10-31 13:22:39
- * date : 2018-10-31
- * year : 2018
- * month : 10
- * day : 31
- * minute : 22
- * hour : 13
- * second : 39
+ * time输入时间规范：
+ * 1、"2018-1-1"
+ * 2、"2018-1-1 23:34:45"
  */
 (function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -17,7 +11,6 @@
     'use strict';
 
     //一些变量或常量
-    let _date = new Date();
     const UNIT_YEAR = 'year';
     const UNIT_MONTH = 'month';
     const UNIT_DAY = 'day';
@@ -68,6 +61,15 @@
         isTimeObject(obj){
             if(obj._date) return true;
             return false;
+        },
+        /**
+         * 将个位数转化为两位数
+         */
+        num2str(num){
+            if(parseInt(num) < 10){
+                return '0' + num;
+            }
+            return '' + num;
         }
     };
 
@@ -85,7 +87,7 @@
         if(!timeStr){
             this._date = new Date();
         }else{
-            this._date = new Date(timeStr);
+            this._date = timeStr.split(' ')[1]?new Date(timeStr):new Date(timeStr + ' 00:00:00');
         }
     } 
 
@@ -108,66 +110,66 @@
          * @return {[number]} [description]
          */
         getCurrentTimeStamp(){
-            return _date.getTime();
+            return new Date().getTime();
         },
         /**
          * [获取当前年份]
          * @return {[number]} [description]
          */
         getCurrentFullYear(){
-            return _date.getFullYear();
+            return new Date().getFullYear();
         },
         /**
          * [获取当前月份，1，2，3...]
          * @return {[number]} [description]
          */
         getCurrentMonth(){
-            return _date.getMonth() + 1;
+            return new Date().getMonth() + 1;
         },
         /**
          * [获取当前日数]
          * @return {[number]} [description]
          */
         getCurrentDate(){
-            return _date.getDate()
+            return new Date().getDate()
         },
         /**
          * [获取当前小时数]
          * @return {[number]} [description]
          */
         getCurrentHours(){
-            return _date.getHours();
+            return new Date().getHours();
         },
         /**
          * [获取当前分钟数]
          * @return {[number]} [description]
          */
         getCurrentMinutes(){
-            return _date.getMinutes();
+            return new Date().getMinutes();
         },
         /**
          * [获取当前秒数]
          * @return {[number]} [description]
          */
         getCurrentSeconds(){
-            return _date.getSeconds();
+            return new Date().getSeconds();
         },
         /**
          * [获取当前毫秒数]
          * @return {[string]} [description]
          */
         getCurrentMilliseconds(){
-            return _date.getMilliseconds();
+            return new Date().getMilliseconds();
         },
         /**
          * [获取当前星期数，1，2，3，4，5，6，7]
          * @return {[number]} [description]
          */
         getCurrentDay(){
-            if(_date.getDay() === 0){
+            if(new Date().getDay() === 0){
                 return 7;
             }
-            return _date.getDay();
+            return new Date().getDay();
         },
         /**
          * [获取当前季度数]
@@ -234,8 +236,15 @@
         /**
          * 获取格式化的时间 默认是YY-MM-DD hh:mm:ss
          */
-        format(){
-            return this._date.getFullYear() + '-' + (this._date.getMonth() + 1) + '-' + this._date.getDate() + ' ' + this._date.getHours() + ':' + this._date.getMinutes() + ':' + this._date.getSeconds();
+        format(str){
+            str = arguments[0]?str:'YY-MM-DD hh:mm:ss';
+            let YY = _utils.num2str(this._date.getFullYear());
+            let MM = _utils.num2str(this._date.getMonth() + 1);
+            let DD = _utils.num2str(this._date.getDate());
+            let hh = _utils.num2str(this._date.getHours());
+            let mm = _utils.num2str(this._date.getMinutes());
+            let ss = _utils.num2str(this._date.getSeconds());
+            return str.replace(/YY/,YY).replace(/MM/,MM).replace(/DD/,DD).replace(/hh/,hh).replace(/mm/,mm).replace(/ss/,ss);
         },
         /**
          * [判断时间是否在time之前]
