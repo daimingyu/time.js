@@ -1,0 +1,23 @@
+{
+  "name": "time-operation",
+  "version": "1.0.0",
+  "description": "时间操作函数库",
+  "main": "time.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daimingyu/time.js.git"
+  },
+  "keywords": [
+    "时间",
+    "函数"
+  ],
+  "author": "daimingyu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daimingyu/time.js/issues"
+  },
+  "homepage": "https://github.com/daimingyu/time.js#readme"
+}

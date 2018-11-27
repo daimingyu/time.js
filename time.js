@@ -1,7 +1,8 @@
 /**
  * time输入时间规范：
- * 1、"2018-1-1"
- * 2、"2018-1-1 23:34:45"
+ * 1、没有输入表示当前时间
+ * 2、"2018-1-1"
+ * 3、"2018-1-1 23:34:45"
  */
 (function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
