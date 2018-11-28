@@ -194,3 +194,22 @@ Time('2018-1-1').add(1,'year').format() //2019-1-1 0:0:0
 Time('2018-1-1').duration('2018-1-4') //3
 Time('2018-1-1').duration('2017-12-30') //-2
 ```
+
+```
+函数：countDown()
+功能：倒计时
+输入：无
+输出：{ day: 0, hour: 0, minute: 0, second: 0 } 表示时间到，或者逾期
+事例：
+setInterval(function (){
+    var obj = Time('2018-11-28 11:10:50').countDown();
+    console.log(obj);
+},1000);
+事例输出：
+{ day: 0, hour: 0, minute: 0, second: 5 }
+{ day: 0, hour: 0, minute: 0, second: 4 }
+{ day: 0, hour: 0, minute: 0, second: 3 }
+{ day: 0, hour: 0, minute: 0, second: 2 }
+{ day: 0, hour: 0, minute: 0, second: 1 }
+{ day: 0, hour: 0, minute: 0, second: 0 }
+```

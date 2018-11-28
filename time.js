@@ -1,6 +1,6 @@
 /**
  * time输入时间规范：
- * 1、没有输入表示当前时间
+ * 1、没有输入会获取当前时间
  * 2、"2018-1-1"
  * 3、"2018-1-1 23:34:45"
  */
@@ -85,6 +85,7 @@
 
     //构造函数
     Time.prototype.init = function(timeStr){
+        //维护一个date对象
         if(!timeStr){
             this._date = new Date();
         }else{
@@ -349,7 +350,7 @@
         },
         /**
          * 计算两个时间相差多少天
-         * @param {*} t 
+         * @param {*}
          */
         duration(t){
             if(!_utils.isTimeObject(t)){
@@ -360,6 +361,33 @@
                 }
             }
             return Math.floor((t._date.getTime() - this._date.getTime())/(24*3600*1000));
+        },
+        /**
+        * 倒计时方法
+        * 返回剩余 多少天 多少小时 多少分 多少秒
+        */
+        countDown(){
+            //结束时间
+            let endTime = this._date.getTime();
+            //开始时间
+            let curTime = new Date().getTime();
+            //总秒数
+            let totalSeconds  = parseInt((endTime - curTime)/1000);
+            if(totalSeconds > 0){
+                //剩下的天数
+                let letfDays = Math.floor(totalSeconds / (60 * 60 * 24));
+                //剩下的小时数
+                let modulo = totalSeconds % (60 * 60 * 24);
+                let leftHours = Math.floor(modulo / (60 * 60));
+                //剩下的分钟
+                modulo = modulo % (60 * 60);
+                let leftMinutes = Math.floor(modulo / 60);
+                //剩下的秒
+                let leftSeconds = modulo % 60;
+                return { day: letfDays, hour: leftHours, minute: leftMinutes, second: leftSeconds }
+            }else{
+                return { day: 0, hour: 0, minute: 0, second: 0 }
+            }            
         }
     });
 
