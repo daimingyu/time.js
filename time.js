@@ -366,7 +366,7 @@
         * 倒计时方法
         * 返回剩余 多少天 多少小时 多少分 多少秒
         */
-        countDown(){
+       countDown(){
             //结束时间
             let endTime = this._date.getTime();
             //开始时间
