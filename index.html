@@ -5,13 +5,16 @@
 	<title>time</title>
 	<script src="time.js"></script>
 	<script>
-		setInterval(function (){
-			var obj = Time('2018-11-29 11:31:00').countDown();
+		let timer = setInterval(function (){
+			var targetTime = '2018-12-01 09:56:00';
+			var obj = Time(targetTime).countDown(timer,() => {
+				console.log(1);
+			});
 			console.log(obj);
 		},1000);
 	</script>
 </head>
 <body>
-	
+	<div id="root"></div>
 </body>
 </html>

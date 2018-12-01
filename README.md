@@ -115,7 +115,7 @@ Time.isLeapYear(2012)  //true
 ```
 函数：howManyDays(year,month)
 功能：判断某年 或者 某年某月 一共有多少天
-输入：year: 具体年份 类型number或string, month：具体月份 类型number或string
+输入：year: 具体年份 类型number month：具体月份 类型number
 事例：
 Time.howManyDays(2018);   //365
 Time.howManyDays(2018,2)  //28
@@ -196,14 +196,16 @@ Time('2018-1-1').duration('2017-12-30') //-2
 ```
 
 ```
-函数：countDown()
+函数：countDown(timer,fn)
 功能：倒计时
-输入：无
+输入：timer: 定时器，当时间到了自动能够清楚 fn:回调函数
 输出：{ day: 0, hour: 0, minute: 0, second: 0 } 表示时间到，或者逾期
 事例：
-setInterval(function (){
-    var obj = Time('2018-11-28 11:10:50').countDown();
-    console.log(obj);
+let timer = setInterval(function (){
+    var targetTime = '2018-12-01 09:56:00';
+    var obj = Time(targetTime).countDown(timer,() => {
+        console.log('时间到了');
+    });
 },1000);
 事例输出：
 { day: 0, hour: 0, minute: 0, second: 5 }
@@ -211,5 +213,6 @@ setInterval(function (){
 { day: 0, hour: 0, minute: 0, second: 3 }
 { day: 0, hour: 0, minute: 0, second: 2 }
 { day: 0, hour: 0, minute: 0, second: 1 }
+时间到了
 { day: 0, hour: 0, minute: 0, second: 0 }
 ```

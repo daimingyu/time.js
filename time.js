@@ -11,28 +11,36 @@
 } (this, function() {
     'use strict';
 
-    //一些变量或常量
+    //一些常量和正则 UNIT单位 REG正则
     const UNIT_YEAR = 'year';
     const UNIT_MONTH = 'month';
     const UNIT_DAY = 'day';
     const UNIT_HOUR = 'hour';
     const UNIT_MINUTE = 'minute';
     const UNIT_SECOND = 'second';
+    const REG_YY = /YY/;
+    const REG_MM = /MM/;
+    const REG_DD = /DD/;
+    const REG_hh = /hh/;
+    const REG_mm = /mm/;
+    const REG_ss = /ss/;
 
     // 工具函数
     let _utils = {
         /**
+         * 方法一:
          * year % 4 == 0     条件1：年份必须要能被4整除
          * year % 100 != 0   条件2：年份不能是整百数
          * year % 400 ==0    条件3：年份是400的倍数
          * 当条件1和条件2同时成立时 就肯定是闰年
          * 如果条件1和条件2不能同时成立 但如果条件3能成立 则仍然是闰年
          * [判断一个年份是否为闰年]
-         * @param  {[string]}  year [年]
-         * @return {Boolean}      [description]
+         * return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
+         * 方法二:
+         * 利用Date函数, 判断这一年的二月份是否有29号
          */
         isLeapYear(year){
-            return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
+            return new Date(year, 1, 29).getDate() === 29;
         },
         /**
          * 判断用户输入的字串是否合法
@@ -74,6 +82,7 @@
         }
     };
 
+    //Time构造器
     let Time = function(timeStr){
         //需要对用户输入的timeStr进行校验
         if(!_utils.validate(timeStr)){
@@ -91,12 +100,12 @@
         }else{
             this._date = timeStr.split(' ')[1]?new Date(timeStr):new Date(timeStr + ' 00:00:00');
         }
-    } 
+    }
 
     //将Time对象的原型指向Time的原型，这样Time构造出的对象 就能使用Time原型上的方法了
     Time.prototype.init.prototype = Time.prototype;
 
-    //浅拷贝 合并一个或多个对象中的内容到第一个对象中
+    //浅拷贝 将第一个对象中的内容复制到第一个对象中
     Time.extend = Time.prototype.extend = function(){
         let funcObj = arguments[0];
         if(typeof arguments[0] !== 'object') return;
@@ -133,7 +142,7 @@
          * @return {[number]} [description]
          */
         getCurrentDate(){
-            return new Date().getDate()
+            return new Date().getDate();
         },
         /**
          * [获取当前小时数]
@@ -206,10 +215,19 @@
          */
         howManyDays(year,month){
             if(!month){
+                if(typeof year !== 'number'){
+                    _utils.throwError('howManyDays(): year输入类型有错');
+                }
                 return this.isLeapYear(year) === true ? 366 : 365;
             }else{
+                if(typeof year !== 'number' || typeof month !== 'number'){
+                    _utils.throwError('howManyDays(): 输入类型有错');
+                }
+                if(month > 12 || month < 1){
+                    _utils.throwError('howManyDays(): month输入不合法');
+                }
                 let res = 31;
-                res = ((parseInt(month) === 4) || (parseInt(month) === 6) || (parseInt(month) === 8) || (parseInt(month) === 10))?30:31;
+                res = ((parseInt(month) === 4) || (parseInt(month) === 6) || (parseInt(month) === 9) || (parseInt(month) === 11))?30:31;
                 res = (parseInt(month) !== 2)? res : this.isLeapYear(year) === true ? 29 : 28 ;
                 return res;
             }
@@ -246,7 +264,7 @@
             let hh = _utils.num2str(this._date.getHours());
             let mm = _utils.num2str(this._date.getMinutes());
             let ss = _utils.num2str(this._date.getSeconds());
-            return str.replace(/YY/,YY).replace(/MM/,MM).replace(/DD/,DD).replace(/hh/,hh).replace(/mm/,mm).replace(/ss/,ss);
+            return str.replace(REG_YY,YY).replace(REG_MM,MM).replace(REG_DD,DD).replace(REG_hh,hh).replace(REG_mm,mm).replace(REG_ss,ss);
         },
         /**
          * [判断时间是否在time之前]
@@ -363,10 +381,11 @@
             return Math.floor((t._date.getTime() - this._date.getTime())/(24*3600*1000));
         },
         /**
-        * 倒计时方法
-        * 返回剩余 多少天 多少小时 多少分 多少秒
-        */
-       countDown(){
+         * 
+         * @param {定时器,当时间到了的时候清除定时器} timer 
+         * @param {时间到的回调方法} fn
+         */
+        countDown(timer,fn){
             //结束时间
             let endTime = this._date.getTime();
             //开始时间
@@ -386,6 +405,10 @@
                 let leftSeconds = modulo % 60;
                 return { day: letfDays, hour: leftHours, minute: leftMinutes, second: leftSeconds }
             }else{
+                //时间到执行回调函数
+                fn();
+                //清除定时器
+                clearInterval(timer);
                 return { day: 0, hour: 0, minute: 0, second: 0 }
             }            
         }
