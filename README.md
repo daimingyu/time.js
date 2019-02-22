@@ -239,3 +239,5 @@ let timer = setInterval(function (){
 ## 三、版本
 + 1.1.6 更新countDown()函数，添加timer参数和回调参数。
 + 1.2.0 增加formatTime()函数。
++ 1.2.1 更新 README.md
++ 1.2.2 更新 README.md
