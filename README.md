@@ -216,3 +216,6 @@ let timer = setInterval(function (){
 时间到了
 { day: 0, hour: 0, minute: 0, second: 0 }
 ```
+
+## 三、版本
+1.1.6 更新countDown()函数，添加timer参数和回调参数。

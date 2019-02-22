@@ -282,7 +282,7 @@
             }
 
             if(this._date.getTime() < t._date.getTime()){
-                return true
+                return true;
             }
 
             return false;
