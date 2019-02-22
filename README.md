@@ -224,6 +224,7 @@ let timer = setInterval(function (){
     var obj = Time(targetTime).countDown(timer,() => {
         console.log('时间到了');
     });
+    console.log(obj);
 },1000);
 事例输出：
 { day: 0, hour: 0, minute: 0, second: 5 }
