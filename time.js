@@ -248,6 +248,48 @@
                 return 7;
             }
             return d.getDay();
+        },
+        /**
+         * 通用规则
+         * 时间                 展示文案
+         * 当天 [0,1) min       刚刚
+         * 当天 [1,60)min       x分钟前
+         * 当天 [1,24)h         x小时前
+         * 1天前                昨天
+         * 2天前                2天前
+         * 3天前                3天前
+         * 4天前                年-月-日
+         * @param {Number} timeStamp
+         */
+        formatTime(timeStamp){
+
+            var curTime = new Date().getTime();
+            var remainTime = curTime - timeStamp;
+
+            var second = Math.floor(remainTime / 1000);
+            if(second >= 0 && second < 60){
+                return "刚刚";
+            }
+
+            var minute = Math.floor(remainTime / (1000 * 60));
+            if(minute >= 1 && minute < 60){
+                return minute + "分钟前";
+            }
+            
+            var hour = Math.floor(remainTime / (1000 * 60 * 60));
+            if(hour >=1 && hour < 24){
+                return hour + "小时前";
+            }else if(hour >=24 && hour < 48){
+                return "昨天";
+            }else if(hour >=48 && hour < 72){
+                return "2天前";
+            }else if(hour >=72 && hour < 96){
+                return "3天前";
+            }
+
+            var date = new Date(timeStamp);
+            var longTimeString = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+            return longTimeString;
         }
     });
 

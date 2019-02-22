@@ -131,6 +131,24 @@ Time.getWeek(2018,2,12);  //1
 Time.getWeek(2018,11,23);  //3
 ```
 
+```
+函数：formatTime(timeStamp)
+功能：将时间戳转化为具体时间
+通用规则：
+         * 时间                 展示文案
+         * 当天 [0,1) min       刚刚
+         * 当天 [1,60)min       x分钟前
+         * 当天 [1,24)h         x小时前
+         * 1天前                昨天
+         * 2天前                2天前
+         * 3天前                3天前
+         * 4天前                年-月-日
+输入：时间戳 [类型：Number]
+事例：
+Time.formatTime(1550419200000);  //2019-8-18
+Time.formatTime(1550635932000);  //两天前
+```
+
 ## 二、对象方法
 
 ### 说明
@@ -219,3 +237,4 @@ let timer = setInterval(function (){
 
 ## 三、版本
 1.1.6 更新countDown()函数，添加timer参数和回调参数。
+1.2.0 增加formatTime()函数。
