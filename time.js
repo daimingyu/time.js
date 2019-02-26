@@ -262,9 +262,13 @@
          * @param {Number} timeStamp
          */
         formatTime(timeStamp){
-
+            var timeStamp = parseInt(timeStamp);
             var curTime = new Date().getTime();
             var remainTime = curTime - timeStamp;
+
+            if(remainTime < 0){
+                return ;
+            }
 
             var second = Math.floor(remainTime / 1000);
             if(second >= 0 && second < 60){
@@ -276,15 +280,18 @@
                 return minute + "分钟前";
             }
             
+            var today = new Date(new Date().toLocaleDateString()).getTime();
+            var todayHour = Math.floor((curTime - today) / (1000 * 60 * 60));
             var hour = Math.floor(remainTime / (1000 * 60 * 60));
-            if(hour >=1 && hour < 24){
-                return hour + "小时前";
-            }else if(hour >=24 && hour < 48){
-                return "昨天";
-            }else if(hour >=48 && hour < 72){
-                return "2天前";
-            }else if(hour >=72 && hour < 96){
-                return "3天前";
+
+            if(hour >=1 && hour < todayHour){
+              return hour + "小时前";
+            }else if(hour >=todayHour && hour < (24+todayHour)){
+              return "昨天";
+            }else if(hour >=(24+todayHour) && hour < (48+todayHour)){
+              return "2天前";
+            }else if(hour >=(48+todayHour) && hour < (72+todayHour)){
+              return "3天前";
             }
 
             var date = new Date(timeStamp);
