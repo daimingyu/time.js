@@ -11,6 +11,9 @@
 } (this, function() {
     'use strict';
 
+    console.log(111);
+    
+
     //一些常量和正则 UNIT单位 REG正则
     const UNIT_YEAR = 'year';
     const UNIT_MONTH = 'month';
